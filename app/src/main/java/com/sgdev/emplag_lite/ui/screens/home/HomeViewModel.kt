@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 data class HomeUiState(
-    val title: String = "Home",
+    val title: String = "Emplag",
     val isLoading: Boolean = false
 )
 
