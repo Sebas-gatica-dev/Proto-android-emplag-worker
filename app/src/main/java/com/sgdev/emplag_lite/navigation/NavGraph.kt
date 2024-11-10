@@ -7,11 +7,13 @@ import androidx.navigation.compose.composable
 import com.sgdev.emplag_lite.ui.screens.home.HomeScreen
 import com.sgdev.emplag_lite.ui.screens.profile.ProfileScreen
 import com.sgdev.emplag_lite.ui.screens.settings.SettingsScreen
+import com.sgdev.emplag_lite.ui.screens.visits.VisitsScreen
 
 sealed class Screen(val route: String) {
     object Home : Screen("home")
     object Profile : Screen("profile")
     object Settings : Screen("settings")
+    object Visits : Screen("visits")
 }
 
 @Composable
@@ -28,6 +30,9 @@ fun NavGraph(navController: NavHostController) {
         }
         composable(Screen.Settings.route) {
             SettingsScreen(navController)
+        }
+        composable(Screen.Visits.route) {
+            VisitsScreen(navController)
         }
     }
 }

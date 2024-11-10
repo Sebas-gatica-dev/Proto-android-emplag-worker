@@ -45,6 +45,15 @@ fun AppScaffold(
                     }
                 )
                 NavigationDrawerItem(
+                    icon = { Icon(Icons.Default.Tour, contentDescription = null) },
+                    label = { Text("Rutas diarias") },
+                    selected = false,
+                    onClick = {
+                        navController.navigate(Screen.Visits.route)
+                        scope.launch { drawerState.close() }
+                    }
+                )
+                NavigationDrawerItem(
                     icon = { Icon(Icons.Default.Settings, contentDescription = null) },
                     label = { Text("Configuración") },
                     selected = false,
@@ -53,6 +62,7 @@ fun AppScaffold(
                         scope.launch { drawerState.close() }
                     }
                 )
+
             }
         }
     ) {

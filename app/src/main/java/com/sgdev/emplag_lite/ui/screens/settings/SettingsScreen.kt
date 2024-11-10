@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.sgdev.emplag_lite.ui.components.AppScaffold
 
 @Composable
 fun SettingsScreen(
@@ -23,22 +24,36 @@ fun SettingsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = uiState.title,
-            style = MaterialTheme.typography.headlineMedium
-        )
-        Button(
-            onClick = { navController.popBackStack() },
-            modifier = Modifier.padding(top = 16.dp)
+
+
+    AppScaffold(
+        navController = navController,
+        title = uiState.title
+    ) { paddingValues ->
+
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Volver")
+            Text(
+                text = uiState.title,
+                style = MaterialTheme.typography.headlineMedium
+            )
+            Button(
+                onClick = { navController.popBackStack() },
+                modifier = Modifier.padding(top = 16.dp)
+            ) {
+                Text("Volver")
+            }
         }
     }
-}
+
+    }
+
+
+
+
