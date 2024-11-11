@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.sgdev.emplag_lite.ui.components.AppScaffold
+import com.sgdev.emplag_lite.ui.components.GoogleMapComponent
 
 data class Visit(val id: Int, val date: String, val location: String, val status: String)
 
@@ -40,6 +41,15 @@ fun VisitsScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
+            GoogleMapComponent(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+                initialLocation = uiState.currentLocation,
+                onMapClick = { latLng ->
+                    viewModel.updateCurrentLocation(latLng)
+                }
+            )
             Text(
                 text = "Registro de Visitas",
                 style = MaterialTheme.typography.headlineMedium,

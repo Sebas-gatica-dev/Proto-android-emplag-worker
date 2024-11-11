@@ -16,8 +16,8 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @Composable
 fun GoogleMapComponent(
     modifier: Modifier = Modifier,
-    initialLocation: LatLng = LatLng(0.0, 0.0),
-    initialZoom: Float = 10f,
+    initialLocation: LatLng = LatLng(-58.3455288,-34.7645566 ),
+    initialZoom: Float = 15f,
     onMapClick: ((LatLng) -> Unit)? = null,
     showMarker: Boolean = true,
     markerTitle: String? = null,

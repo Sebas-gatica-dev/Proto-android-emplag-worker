@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,6 +30,7 @@ import kotlinx.coroutines.flow.asStateFlow
 data class VisitsUiState(
     val title: String = "Rutas diarias",
     val isLoading: Boolean = false,
+    val currentLocation: LatLng = LatLng(0.0, 0.0)
 
 )
 
@@ -36,4 +38,9 @@ class VisitsViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(VisitsUiState())
     val uiState: StateFlow<VisitsUiState> = _uiState.asStateFlow()
 
+    fun updateCurrentLocation(location: LatLng) {
+        viewModelScope.launch{
+            _uiState.value = _uiState.value.copy(currentLocation = location)
+        }
+    }
 }
