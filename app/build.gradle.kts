@@ -78,6 +78,15 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4")
     // Charts
     implementation("com.patrykandpatrick.vico:compose:1.13.1")
+    implementation("com.patrykandpatrick.vico:compose:1.13.1")
+    implementation("com.patrykandpatrick.vico:compose-m3:1.13.1")
+    implementation("com.patrykandpatrick.vico:core:1.13.1")
+
+
+
+    // For pie charts specifically
+    implementation("com.patrykandpatrick.vico:views:1.13.1")
+
 
     // Material 3
     implementation("androidx.compose.material3:material3:1.2.0")

@@ -3,43 +3,34 @@ package com.sgdev.emplag_lite.ui.screens.home
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sgdev.emplag_lite.ui.components.AppScaffold
-import com.patrykandpatrick.vico.compose.axis.horizontal.bottomAxis
-import com.patrykandpatrick.vico.compose.axis.vertical.startAxis
+import com.patrykandpatrick.vico.compose.axis.horizontal.rememberBottomAxis
+import com.patrykandpatrick.vico.compose.axis.vertical.rememberStartAxis
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
-import com.patrykandpatrick.vico.core.entry.entryModelOf
-import com.patrykandpatrick.vico.compose.axis.horizontal.rememberBottomAxis
-import com.patrykandpatrick.vico.compose.axis.vertical.rememberStartAxis
+import com.patrykandpatrick.vico.compose.chart.column.columnChart
+
 import com.patrykandpatrick.vico.core.entry.FloatEntry
 import com.patrykandpatrick.vico.core.entry.entryModelOf
-import com.patrykandpatrick.vico.compose.axis.horizontal.rememberBottomAxis
-import com.patrykandpatrick.vico.compose.axis.vertical.rememberStartAxis
-import com.patrykandpatrick.vico.compose.chart.line.lineChart
 
-@OptIn(ExperimentalMaterial3Api::class)
+import com.patrykandpatrick.vico.core.component.text.textComponent
+import com.patrykandpatrick.vico.core.component.shape.Shapes
+import com.patrykandpatrick.vico.core.dimensions.MutableDimensions
+
 @Composable
 fun HomeScreen(
+    navController: NavController,
     viewModel: HomeViewModel,
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(uiState.title) },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary
-                )
-            )
-        }
+    AppScaffold(
+        navController = navController,
+        title = uiState.title
     ) { paddingValues ->
         Column(
             modifier = modifier
@@ -47,7 +38,7 @@ fun HomeScreen(
                 .padding(paddingValues)
                 .padding(16.dp)
         ) {
-            // Metrics Overview Cards
+            // Metrics Cards (unchanged)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -66,36 +57,51 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Revenue Chart
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxSize()
-                ) {
-                    Text(
-                        text = "Ingresos Mensuales",
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
+            // Line Chart
+            ChartCard(
+                title = "Ingresos Mensuales",
+                chart = {
                     Chart(
                         chart = lineChart(),
                         model = entryModelOf(uiState.monthlyRevenue.mapIndexed { index, value ->
                             FloatEntry(x = index.toFloat(), y = value)
                         }),
-                        startAxis = rememberStartAxis(),
-                        bottomAxis = rememberBottomAxis()
+                        startAxis = rememberStartAxis(
+                            label = textComponent()
+                        ),
+                        bottomAxis = rememberBottomAxis(
+                            label = textComponent()
+                        )
                     )
                 }
-            }
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Recent Activity List
+            // Bar Chart
+            ChartCard(
+                title = "Productividad por Departamento",
+                chart = {
+                    Chart(
+                        chart = columnChart(),
+                        model = entryModelOf(uiState.departmentProductivity.mapIndexed { index, value ->
+                            FloatEntry(x = index.toFloat(), y = value)
+                        }),
+                        startAxis = rememberStartAxis(
+                            label = textComponent()
+                        ),
+                        bottomAxis = rememberBottomAxis(
+                            label = textComponent()
+                        )
+                    )
+                }
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+
+
+            // Recent Activity List (unchanged)
             Card(
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -119,6 +125,7 @@ fun HomeScreen(
     }
 }
 
+// MetricCard and ActivityItem components remain unchanged
 @Composable
 fun MetricCard(
     title: String,
@@ -139,6 +146,32 @@ fun MetricCard(
                 text = value,
                 style = MaterialTheme.typography.headlineMedium
             )
+        }
+    }
+}
+
+@Composable
+fun ChartCard(
+    title: String,
+    chart: @Composable () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(200.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxSize()
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            chart()
         }
     }
 }

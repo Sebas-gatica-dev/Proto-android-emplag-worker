@@ -27,6 +27,7 @@ fun NavGraph(navController: NavHostController) {
         composable(Screen.Home.route) {
             val homeViewModel: HomeViewModel = viewModel()
             HomeScreen(
+                navController = navController,
                 viewModel = homeViewModel,
             )
 

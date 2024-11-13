@@ -11,6 +11,8 @@ data class HomeUiState(
     val employeeCount: Int = 150,
     val productivity: Float = 85f,
     val monthlyRevenue: List<Float> = listOf(20f, 35f, 25f, 40f, 45f, 50f),
+    val departmentProductivity: List<Float> = listOf(75f, 82f, 90f, 68f, 95f),
+    val projectDistribution: List<Float> = listOf(30f, 25f, 20f, 15f, 10f),
     val recentActivities: List<Activity> = listOf(
         Activity(
             "Nuevo empleado registrado",
@@ -35,4 +37,10 @@ data class Activity(
 class HomeViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
+
+    // You can add methods here to update the state if needed
+    // For example:
+    // fun updateDepartmentProductivity(newProductivity: List<Float>) {
+    //     _uiState.value = _uiState.value.copy(departmentProductivity = newProductivity)
+    // }
 }
